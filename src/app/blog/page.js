@@ -9,7 +9,7 @@ export default async function Blog() {
   const authSession = await getServerAuthSession();
   let blogData =  await fetchData('http://localhost:3000/api/blog');
   const blogs = !!blogData.blogs ? blogData.blogs : [];
-  console.log('blogs======', blogs);
+  // console.log('blogs======', blogs);
   return (
     // <Layout>
       <div className={`${styles.main} blogPage`}>

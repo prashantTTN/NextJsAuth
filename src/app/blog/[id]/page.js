@@ -13,7 +13,7 @@ const BlogDetails = (params)=> {
                 const res = await fetch(`http://localhost:3000/api/blog/${id}`);
                 const resData = await res.json();
                 setBlogDetails(resData);
-                console.log('resData===', resData);
+                // console.log('resData===', resData);
             } catch (error) {
                 console.error('Error fetching data:', error);
             }

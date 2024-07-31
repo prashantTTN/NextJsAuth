@@ -46,7 +46,7 @@ const Cards = async(props : Props) => {
             });
 
             if (res.ok) {
-                console.log('res.ok===', res.ok);
+                console.log('blog deleted===');
                 router.push("/blog");
             } else {
                 throw new Error("Failed to delete a topic");
