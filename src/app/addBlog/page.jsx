@@ -1,11 +1,13 @@
 "use client";
-
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import addBlogStyles from "./addBlog.module.css";
 import nextConfig from '../../../next.config';
+import Link from "next/link";
+import { getServerAuthSession } from "@/server/auth";
 
 export default function AddBlog() {
+  const authSession = getServerAuthSession();
   const [title, setTitle] = useState("");
   const [content, setDescription] = useState("");
   const [author, setAuthor] = useState("");
@@ -40,24 +42,33 @@ export default function AddBlog() {
   };
 
   return (
-    <form onSubmit={handleSubmit} className={`flex flex-col gap-3 ${addBlogStyles.addBlogForm}`}>
-      <input onChange={(e) => setTitle(e.target.value)}
-        value={title} className="border border-slate-500 px-8 py-2"
-        type="text" placeholder="Blog Title" maxLength={50}
-      />
+    <>
+      {authSession?.user &&
+        <form onSubmit={handleSubmit} className={`flex flex-col gap-3 ${addBlogStyles.addBlogForm}`}>
+          <input onChange={(e) => setTitle(e.target.value)}
+            value={title} className="border border-slate-500 px-8 py-2"
+            type="text" placeholder="Blog Title" maxLength={50}
+          />
 
-      <input onChange={(e) => setDescription(e.target.value)}
-        value={content} className="border border-slate-500 px-8 py-2"
-        type="text" placeholder="Blog Description" maxLength={400}
-      />
+          <input onChange={(e) => setDescription(e.target.value)}
+            value={content} className="border border-slate-500 px-8 py-2"
+            type="text" placeholder="Blog Description" maxLength={400}
+          />
 
-      <input onChange={(e) => setAuthor(e.target.value)}  value={author} className="border border-slate-500 px-8 py-2"
-        type="text" placeholder="Blog Author" maxLength={50}
-      />
+          <input onChange={(e) => setAuthor(e.target.value)}  value={author} className="border border-slate-500 px-8 py-2"
+            type="text" placeholder="Blog Author" maxLength={50}
+          />
 
-      <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
-        Add Blog
-      </button>
-    </form>
+          <button type="submit" className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded-full">
+            Add Blog
+          </button>
+        </form> 
+      }
+      {!authSession?.user && (
+        <Link className="font-medium mt-2 text-blue-600 hover:underline" href="/login">
+          Login
+        </Link>
+      )}
+    </>
   );
 }
